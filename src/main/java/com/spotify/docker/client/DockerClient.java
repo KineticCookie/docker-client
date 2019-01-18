@@ -800,6 +800,15 @@ public interface DockerClient extends Closeable {
     public static BuildParam cpusetCpus(final Integer cpusetCpus) {
       return create("cpusetcpus", cpusetCpus.toString());
     }
+
+    /**
+     * buildargs parameter.
+     * @param jsonString valid json that defines build argument parameters
+     * @return BuildParam
+     */
+    public static BuildParam buildargs(final String jsonString) {
+      return create("buildargs", jsonString);
+    }
   }
 
   /**

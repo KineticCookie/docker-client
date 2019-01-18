@@ -39,39 +39,43 @@ import javax.annotation.Nullable;
 @AutoValue
 @JsonAutoDetect(fieldVisibility = ANY, getterVisibility = NONE, setterVisibility = NONE)
 public abstract class DockerConfig {
-
+  
   @Nullable
   @JsonProperty("credHelpers")
   public abstract ImmutableMap<String, String> credHelpers();
-
+  
   @Nullable
   @JsonProperty("auths")
   public abstract ImmutableMap<String, RegistryAuth> auths();
-
+  
   @Nullable
   @JsonProperty("HttpHeaders")
   public abstract ImmutableMap<String, String> httpHeaders();
-
+  
   @Nullable
   @JsonProperty("credsStore")
   public abstract String credsStore();
-
+  
   @Nullable
   @JsonProperty("detachKeys")
   public abstract String detachKeys();
-
+  
   @Nullable
   @JsonProperty("stackOrchestrator")
   public abstract String stackOrchestrator();
-
+  
   @Nullable
   @JsonProperty("psFormat")
   public abstract String psFormat();
-
+  
   @Nullable
   @JsonProperty("imagesFormat")
   public abstract String imagesFormat();
-
+  
+  @Nullable
+  @JsonProperty("proxies")
+  public abstract ImmutableMap<String, DockerBuildProxyConfig>  proxies();
+  
   @JsonCreator
   public static DockerConfig create(
           @JsonProperty("credHelpers") final Map<String, String> credHelpers,
@@ -81,21 +85,25 @@ public abstract class DockerConfig {
           @JsonProperty("detachKeys") final String detachKeys,
           @JsonProperty("stackOrchestrator") final String stackOrchestrator,
           @JsonProperty("psFormat") final String psFormat,
-          @JsonProperty("imagesFormat") final String imagesFormat) {
+          @JsonProperty("imagesFormat") final String imagesFormat,
+          @JsonProperty("proxies") final Map<String, DockerBuildProxyConfig> proxies) {
     return new AutoValue_DockerConfig(
-        credHelpers == null
-            ? ImmutableMap.<String, String>of()
-            : ImmutableMap.copyOf(credHelpers),
-        auths == null
-            ? ImmutableMap.<String, RegistryAuth>of()
-            : ImmutableMap.copyOf(auths),
-        httpHeaders == null
-            ? ImmutableMap.<String, String>of()
-            : ImmutableMap.copyOf(httpHeaders),
-        credsStore,
-        detachKeys,
-        stackOrchestrator,
-        psFormat,
-        imagesFormat);
+            credHelpers == null
+                    ? ImmutableMap.<String, String>of()
+                    : ImmutableMap.copyOf(credHelpers),
+            auths == null
+                    ? ImmutableMap.<String, RegistryAuth>of()
+                    : ImmutableMap.copyOf(auths),
+            httpHeaders == null
+                    ? ImmutableMap.<String, String>of()
+                    : ImmutableMap.copyOf(httpHeaders),
+            credsStore,
+            detachKeys,
+            stackOrchestrator,
+            psFormat,
+            imagesFormat,
+            proxies == null
+                    ? ImmutableMap.of()
+                    : ImmutableMap.copyOf(proxies));
   }
 }
